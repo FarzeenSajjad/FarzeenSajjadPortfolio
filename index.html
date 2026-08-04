@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Farzeen Sajjad, Software Engineering Student</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#59B333;
+    --green-deep:#2F7A18;
+    --green-bright:#7ED957;
+    --green-soft:#EAF6E0;
+    --ink:#12160D;
+    --ink-soft:#5B6653;
+    --paper:#FFFFFF;
+    --paper-soft:#F6FAF2;
+    --line:#DCEBD0;
+    --mono:'JetBrains Mono', monospace;
+    --display:'Space Grotesk', sans-serif;
+    --body:'Inter', sans-serif;
+    --radius: 14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--body);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  ::selection{background:var(--green-bright); color:var(--ink);}
+
+  :focus-visible{
+    outline:2.5px solid var(--green-deep);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px;
+    max-width:1120px; margin:0 auto;
+  }
+  .logo{
+    font-family:var(--mono); font-weight:600; font-size:15px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{
+    width:9px; height:9px; border-radius:50%;
+    background:var(--green); box-shadow:0 0 0 3px var(--green-soft);
+  }
+  .nav-links{display:flex; gap:32px; list-style:none;}
+  .nav-links a{
+    font-family:var(--mono); font-size:13.5px; color:var(--ink-soft);
+    transition:color .2s;
+    position:relative;
+  }
+  .nav-links a:hover{color:var(--green-deep);}
+  .nav-cta{
+    font-family:var(--mono); font-size:13px; font-weight:600;
+    background:var(--ink); color:var(--paper);
+    padding:9px 16px; border-radius:8px;
+    transition:background .2s;
+  }
+  .nav-cta:hover{background:var(--green-deep);}
+  .burger{display:none; background:none; border:none; cursor:pointer; padding:8px;}
+  .burger span{display:block; width:22px; height:2px; background:var(--ink); margin:5px 0;}
+
+  @media (max-width:760px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0;
+      background:var(--paper); flex-direction:column; gap:0;
+      border-bottom:1px solid var(--line);
+      transform:translateY(-130%); transition:transform .25s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-links li{width:100%; border-top:1px solid var(--line);}
+    .nav-links a{display:block; padding:16px 28px;}
+    .nav-cta{display:none;}
+    .burger{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 0 64px;
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
+  }
+  @media (max-width:900px){ .hero{grid-template-columns:1fr; padding:56px 0 40px;} }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:13px; color:var(--green-deep);
+    display:flex; align-items:center; gap:8px; margin-bottom:18px;
+    text-transform:uppercase; letter-spacing:.08em;
+  }
+  .eyebrow::before{content:""; width:16px; height:1.5px; background:var(--green); display:inline-block;}
+
+  h1{
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(2.4rem, 5vw, 3.6rem);
+    line-height:1.05; letter-spacing:-0.02em;
+    margin-bottom:20px;
+  }
+  h1 .accent{color:var(--green-deep);}
+
+  .hero-sub{
+    font-size:17px; color:var(--ink-soft); max-width:46ch; margin-bottom:30px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:14px; font-weight:600;
+    padding:13px 22px; border-radius:9px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .15s ease, box-shadow .15s ease;
+    border:1.5px solid transparent; cursor:pointer;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn-primary{background:var(--green-deep); color:#fff;}
+  .btn-primary:hover{box-shadow:0 6px 20px -6px rgba(47,122,24,.55);}
+  .btn-ghost{border-color:var(--line); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--green-deep); color:var(--green-deep);}
+
+  /* terminal card */
+  .terminal{
+    background:var(--paper-soft);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 14px 34px -22px rgba(18,22,13,.18);
+  }
+  .term-bar{
+    display:flex; align-items:center; gap:9px;
+    padding:14px 20px; background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .term-dot{width:8px; height:8px; border-radius:50%; background:var(--green);}
+  .term-bar .term-title{
+    font-family:var(--mono); font-size:12px; color:var(--ink-soft);
+  }
+  .term-body{
+    padding:24px 22px;
+    color:var(--ink); min-height:230px;
+  }
+  .term-block{margin-bottom:22px;}
+  .term-block:last-child{margin-bottom:0;}
+  .term-label{
+    font-family:var(--mono); font-size:11px; text-transform:uppercase;
+    letter-spacing:.09em; color:var(--green-deep); margin-bottom:7px;
+  }
+  .term-value{
+    font-family:var(--body); font-size:15px; color:var(--ink-soft);
+    line-height:1.6; white-space:pre-wrap;
+  }
+  .term-value .cursor{
+    display:inline-block; width:7px; height:15px; background:var(--green);
+    vertical-align:text-bottom; animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .tag-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+  .tag{
+    font-family:var(--mono); font-size:11.5px; color:var(--green-deep);
+    background:var(--green-soft); border:1px solid var(--line);
+    padding:5px 10px; border-radius:999px;
+  }
+
+  /* ---------- SECTION HEADS ---------- */
+  section{padding:72px 0;}
+  .section-head{margin-bottom:40px; max-width:60ch;}
+  .section-tag{
+    font-family:var(--mono); font-size:12.5px; color:var(--green-deep);
+    text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:block;
+  }
+  h2{
+    font-family:var(--display); font-size:clamp(1.7rem,3.2vw,2.3rem);
+    font-weight:600; letter-spacing:-.01em;
+  }
+  .section-sub{color:var(--ink-soft); margin-top:10px; font-size:15.5px;}
+
+  #stack{background:var(--paper-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .stack-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px;
+  }
+  .stack-item{
+    background:var(--paper); border:1px solid var(--line); border-radius:10px;
+    padding:16px; font-family:var(--mono); font-size:13.5px;
+    display:flex; align-items:center; gap:10px;
+    transition:border-color .2s, transform .2s;
+  }
+  .stack-item:hover{border-color:var(--green); transform:translateY(-2px);}
+  .stack-item .idx{color:var(--green-deep); font-size:12px;}
+
+  /* ---------- PROJECTS ---------- */
+  .project-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;
+  }
+  @media (max-width:760px){ .project-grid{grid-template-columns:1fr;} }
+  .card{
+    border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; background:var(--paper);
+    display:flex; flex-direction:column; gap:14px;
+    transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+    opacity:0; transform:translateY(16px);
+  }
+  .card.show{opacity:1; transform:translateY(0);}
+  .card:hover{
+    box-shadow:0 20px 44px -26px rgba(18,22,13,.28);
+    border-color:var(--green);
+    transform:translateY(-3px);
+  }
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+  .card h3{font-family:var(--display); font-size:19px; font-weight:600;}
+  .card-kind{
+    font-family:var(--mono); font-size:11px; color:var(--green-deep);
+    background:var(--green-soft); padding:4px 9px; border-radius:999px; white-space:nowrap;
+  }
+  .card p{color:var(--ink-soft); font-size:14.5px;}
+  .card .tag-row{margin-top:auto;}
+  .card .tag{font-size:11px;}
+
+  /* ---------- AGENT (light theme, matches rest of site) ---------- */
+  #agent{background:var(--paper-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .agent-grid{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:stretch;
+    margin-top:36px;
+  }
+  @media (max-width:900px){ .agent-grid{grid-template-columns:1fr;} }
+
+  .chat-window{
+    background:#fff; color:var(--ink); border-radius:var(--radius);
+    overflow:hidden; display:flex; flex-direction:column;
+    height:460px; border:1px solid var(--line);
+    box-shadow:0 20px 50px -30px rgba(18,22,13,.2);
+  }
+  .chat-window-bar{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px; background:var(--paper-soft);
+    border-bottom:1px solid var(--line);
+    font-family:var(--mono); font-size:12px; color:var(--ink-soft);
+  }
+  .chat-window-bar .dot{width:8px; height:8px; border-radius:50%; background:var(--green);}
+  .chat-log{
+    flex:1; overflow-y:auto; padding:18px 18px 6px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .msg{
+    max-width:82%; padding:10px 14px; border-radius:12px;
+    font-size:14px; line-height:1.5;
+  }
+  .msg.bot{
+    background:var(--green-soft); border:1px solid var(--line);
+    align-self:flex-start; border-bottom-left-radius:3px;
+  }
+  .msg.user{
+    background:var(--ink); color:#fff;
+    align-self:flex-end; border-bottom-right-radius:3px;
+  }
+  .msg.typing{ color:var(--ink-soft); font-style:italic; }
+  .quick-replies{
+    display:flex; flex-wrap:wrap; gap:8px; padding:4px 18px 14px;
+  }
+  .qr-btn{
+    font-family:var(--mono); font-size:12px;
+    border:1px solid var(--line); background:var(--paper-soft);
+    padding:7px 11px; border-radius:999px; cursor:pointer;
+    transition:border-color .2s, color .2s;
+  }
+  .qr-btn:hover{border-color:var(--green-deep); color:var(--green-deep);}
+  .chat-input-row{
+    display:flex; gap:8px; padding:14px; border-top:1px solid var(--line);
+  }
+  .chat-input-row input{
+    flex:1; border:1px solid var(--line); border-radius:9px;
+    padding:11px 13px; font-family:var(--body); font-size:14px;
+    background:var(--paper-soft); color:var(--ink);
+  }
+  .chat-input-row input:focus{outline:none; border-color:var(--green-deep);}
+  .chat-send{
+    background:var(--green-deep); color:#fff; border:none; border-radius:9px;
+    padding:0 18px; font-family:var(--mono); font-size:13px; font-weight:600; cursor:pointer;
+  }
+  .chat-send:hover{background:var(--green);}
+
+  .agent-side{display:flex; flex-direction:column; gap:18px;}
+  .agent-card{
+    background:#fff; border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; flex:1;
+    display:flex; flex-direction:column; gap:10px; justify-content:center;
+  }
+  .agent-card h3{font-family:var(--display); font-size:18px; color:var(--ink);}
+  .agent-card p{color:var(--ink-soft); font-size:14px;}
+  .agent-card .btn-primary{align-self:flex-start; margin-top:6px;}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  #contact{text-align:center;}
+  .contact-links{
+    display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-top:26px;
+  }
+  .contact-links a{
+    font-family:var(--mono); font-size:14px;
+    border:1px solid var(--line); padding:11px 20px; border-radius:9px;
+    transition:border-color .2s, color .2s;
+  }
+  .contact-links a:hover{border-color:var(--green-deep); color:var(--green-deep);}
+  footer{
+    border-top:1px solid var(--line); padding:26px 0; text-align:center;
+    font-family:var(--mono); font-size:12.5px; color:var(--ink-soft);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a href="#top" class="logo"><span class="dot"></span>farzeen<span style="color:var(--ink-soft)">.dev</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#work">work</a></li>
+      <li><a href="#stack">stack</a></li>
+      <li><a href="#agent">agent</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+    <a href="#agent" class="nav-cta">Talk to my agent</a>
+    <button class="burger" id="burgerBtn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero wrap">
+    <div>
+      <div class="eyebrow">whoami</div>
+      <h1>Farzeen Sajjad, <span class="accent">Software Engineering</span> student.</h1>
+      <p class="hero-sub">I build things with FastAPI, Oracle databases, Java, and lately, AI agents. Seven projects shipped so far, and a running agent right here on this page.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary">View my work</a>
+        <a href="#agent" class="btn btn-ghost">Chat with my agent</a>
+      </div>
+    </div>
+
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="term-dot"></span>
+        <span class="term-title">a quick intro</span>
+      </div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+  </section>
+
+  <section id="stack" class="wrap">
+    <div class="section-head">
+      <span class="section-tag">The stack</span>
+      <h2>Tools I actually use</h2>
+      <p class="section-sub">Not a buzzword list. Every one of these shows up in a real project below.</p>
+    </div>
+    <div class="stack-grid" id="stackGrid"></div>
+  </section>
+
+  <section id="work" class="wrap">
+    <div class="section-head">
+      <span class="section-tag">Selected work</span>
+      <h2>Seven projects, one habit: finish what I start</h2>
+      <p class="section-sub">From simple CRUD apps to agentic AI, each one below was actually built and debugged, not just scaffolded and abandoned.</p>
+    </div>
+    <div class="project-grid" id="projectGrid"></div>
+  </section>
+
+  <section id="agent">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-tag">A personal agent</span>
+        <h2>Ask my site anything about my work</h2>
+        <p class="section-sub">A small assistant I built for this page. It knows about every project below, and it can point you to my full Job Fit Agent too.</p>
+      </div>
+
+      <div class="agent-grid">
+        <div class="chat-window">
+          <div class="chat-window-bar"><span class="dot"></span>chat with my agent</div>
+          <div class="chat-log" id="chatLog"></div>
+          <div class="quick-replies" id="quickReplies"></div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Ask about a project, my stack, or how to reach me" aria-label="Message the agent">
+            <button class="chat-send" id="chatSend">Send</button>
+          </div>
+        </div>
+
+        <div class="agent-side">
+          <div class="agent-card">
+            <h3>Job Fit Agent</h3>
+            <p>My main agent project. Upload a CV and paste a job description, and it gives an honest match score, matched and missing skills, a suggested role level, and a draft outreach message, powered by the Gemini API.</p>
+            <a href="https://job-fit-agent-8mbusnxecu7m2yvefsqkec.streamlit.app/" class="btn btn-primary" target="_blank" rel="noopener">Try the Job Fit Agent</a>
+          </div>
+          <div class="agent-card">
+            <h3>How this chat works</h3>
+            <p>It's backed by Claude through a small serverless function I wrote, with my own project details fed in as context. If that backend is ever unreachable, it quietly falls back to a keyword-matched answer instead of breaking.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <div class="section-head" style="margin:0 auto; text-align:center;">
+      <span class="section-tag">Get in touch</span>
+      <h2>Building something? Let's talk.</h2>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:farzeensajjad7@gmail.com">farzeensajjad7@gmail.com</a>
+      <a href="https://github.com/FarzeenSajjad" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/farzeen-sajjad-82b218353/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">&copy; <span id="year"></span> Farzeen Sajjad. Built by hand, one project at a time.</div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ---- mobile nav ---- */
+const burger = document.getElementById('burgerBtn');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+/* ---- terminal typing intro ---- */
+const termLines = [
+  { label: 'about me', text: 'Software Engineering student. Builds with FastAPI, Oracle DB, Java, and AI agents.' },
+  { label: 'projects', text: 'LearnHub, Job Fit Agent, Memory Dust, To-Do CRUD API, Spice Haven, Employee Mgmt System, Smart Home Automation' },
+  { label: 'right now', text: 'still building.' }
+];
+const termBody = document.getElementById('termBody');
+let li = 0;
+function typeTerm(){
+  if(li >= termLines.length){ return; }
+  const entry = termLines[li];
+  const block = document.createElement('div');
+  block.className = 'term-block';
+  const label = document.createElement('div');
+  label.className = 'term-label';
+  label.textContent = entry.label;
+  const value = document.createElement('div');
+  value.className = 'term-value';
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  value.appendChild(cursor);
+  block.appendChild(label);
+  block.appendChild(value);
+  termBody.appendChild(block);
+
+  const text = entry.text;
+  let idx = 0;
+  const iv = setInterval(() => {
+    value.insertBefore(document.createTextNode(text[idx]), cursor);
+    idx++;
+    if(idx >= text.length){
+      clearInterval(iv);
+      cursor.remove();
+      li++;
+      setTimeout(typeTerm, 300);
+    }
+  }, 22);
+}
+typeTerm();
+
+/* ---- stack grid ---- */
+const stack = ['Python','FastAPI','Oracle DB','Java','C++','JavaFX','PostgreSQL','Docker','Streamlit','JWT Auth','Anthropic API','tkinter'];
+const stackGrid = document.getElementById('stackGrid');
+stack.forEach((s,i) => {
+  const el = document.createElement('div');
+  el.className = 'stack-item';
+  el.innerHTML = `<span class="idx">${String(i+1).padStart(2,'0')}</span>${s}`;
+  stackGrid.appendChild(el);
+});
+
+/* ---- projects ---- */
+const projects = [
+  {
+    name: 'Job Fit Agent',
+    kind: 'Agentic AI',
+    desc: "An agent that reads your CV and a job description, then gives an honest match score, matched and missing skills, and a draft outreach message. Built with the Gemini API.",
+    tags: ['Streamlit','Gemini API','pdfplumber']
+  },
+  {
+    name: 'LearnHub',
+    kind: 'Full-stack platform',
+    desc: "An online learning platform with a 21-table Oracle schema, over 50 JWT-authenticated FastAPI endpoints, and separate roles for students, instructors, and admins.",
+    tags: ['FastAPI','Oracle DB','JWT','Streamlit']
+  },
+  {
+    name: 'To-Do CRUD API',
+    kind: 'Backend engineering',
+    desc: "Built in two stages during an internship. First an in-memory FastAPI version with full validation, then migrated to PostgreSQL in Docker without changing the API.",
+    tags: ['FastAPI','PostgreSQL','Docker']
+  },
+  {
+    name: 'Memory Dust',
+    kind: 'Personal project',
+    desc: "A journaling app I built for myself, not for a client. Tracks streaks and mood trends, with a Time Capsule feature I am still fond of.",
+    tags: ['Python','tkinter','JSON']
+  },
+  {
+    name: 'Spice Haven',
+    kind: 'Internship build',
+    desc: "A restaurant billing system in Java, built during my internship at SyntecxHub and published with full documentation.",
+    tags: ['Java']
+  },
+  {
+    name: 'Employee Management System',
+    kind: 'Desktop and database',
+    desc: "A desktop tool for managing employee records, with direct Oracle database authentication and a cleaned-up scrollable interface.",
+    tags: ['Python','tkinter','Oracle DB']
+  },
+  {
+    name: 'Smart Home Automation',
+    kind: 'Systems design',
+    desc: "A JavaFX home automation system, fully mapped out with UML class, component, and deployment diagrams before I wrote the final logic.",
+    tags: ['JavaFX','UML','Java']
+  }
+];
+const grid = document.getElementById('projectGrid');
+projects.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-top">
+      <h3>${p.name}</h3>
+      <span class="card-kind">${p.kind}</span>
+    </div>
+    <p>${p.desc}</p>
+    <div class="tag-row">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+  `;
+  grid.appendChild(card);
+});
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.card').forEach(c => io.observe(c));
+
+/* ---- agent chat ---- */
+const chatLog = document.getElementById('chatLog');
+const quickReplies = document.getElementById('quickReplies');
+const chatInput = document.getElementById('chatInput');
+const chatSend = document.getElementById('chatSend');
+
+// Point this at your deployed serverless function (see /api/chat.js).
+// Example once deployed: 'https://your-project.vercel.app/api/chat'
+const AGENT_API_URL = 'https://YOUR-DEPLOYMENT-URL/api/chat';
+
+// Running conversation sent to the backend so the agent has context across turns.
+const conversation = [];
+
+function addMsg(text, who){
+  const div = document.createElement('div');
+  div.className = 'msg ' + who;
+  div.textContent = text;
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+  return div;
+}
+
+function addTyping(){
+  const div = document.createElement('div');
+  div.className = 'msg bot typing';
+  div.textContent = 'thinking…';
+  chatLog.appendChild(div);
+  chatLog.scrollTop = chatLog.scrollHeight;
+  return div;
+}
+
+async function getAgentReply(userText){
+  conversation.push({ role: 'user', content: userText });
+  try {
+    const res = await fetch(AGENT_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: conversation })
+    });
+    if(!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    if(!data.reply) throw new Error('no reply field');
+    conversation.push({ role: 'assistant', content: data.reply });
+    return data.reply;
+  } catch (err) {
+    // Backend not deployed yet, offline, or rate-limited: fall back to
+    // local keyword matching so the chat never just breaks.
+    conversation.pop();
+    return null;
+  }
+}
+
+const intents = [
+  { keys: ['project','built','work','portfolio'], reply: "I've shipped seven projects so far: LearnHub, the Job Fit Agent, a To-Do CRUD API, Memory Dust, Spice Haven, an Employee Management System, and a Smart Home Automation system. Ask me about any one of them by name." },
+  { keys: ['learnhub'], reply: "LearnHub is a full-stack online learning platform. It runs on a 21-table Oracle schema and over 50 JWT-authenticated FastAPI endpoints, with separate roles for students, instructors, and admins." },
+  { keys: ['interview','coach','job fit','fit agent'], reply: "The Job Fit Agent is my main agent project. Upload a CV and paste a job description, and it gives you a match score, matched and missing skills, a suggested role level, and a draft outreach message, using the Gemini API. It's live, try the link on the right." },
+  { keys: ['memory dust','journal'], reply: "Memory Dust is a journaling app I built for myself. Python and tkinter, with streak tracking, mood trends, and a Time Capsule feature." },
+  { keys: ['todo','crud','fastapi api'], reply: "The To-Do CRUD API started as an internship task. I built it in memory with FastAPI first, then migrated it to PostgreSQL in Docker without changing the API itself." },
+  { keys: ['spice','restaurant','billing'], reply: "Spice Haven is a restaurant billing system I built in Java during my internship at SyntecxHub." },
+  { keys: ['employee'], reply: "The Employee Management System is a Python and tkinter desktop app with direct Oracle database authentication." },
+  { keys: ['smart home','javafx','automation'], reply: "Smart Home Automation is a JavaFX project. I mapped it out fully with UML diagrams before writing the final logic." },
+  { keys: ['stack','tech','tools','language'], reply: "My usual stack is Python, FastAPI, Oracle DB, Java, JavaFX, PostgreSQL, Docker, Streamlit, JWT auth, and the Anthropic API when I'm building agents." },
+  { keys: ['contact','email','hire','reach'], reply: "The contact section below has my email, GitHub, and LinkedIn. That's the best way to reach me." },
+  { keys: ['intern','internship'], reply: "I've interned twice: as an AI Backend Engineer at FlyRank AI, where I built the To-Do CRUD API, and at SyntecxHub, where I built the Spice Haven billing system." },
+  { keys: ['hello','hi','hey'], reply: "Hey, I'm Farzeen's site assistant. Ask me about any project, the stack, or how to get in touch." }
+];
+const fallback = "I don't have a ready answer for that one. Try asking about a specific project, like LearnHub or the Job Fit Agent, or ask about the stack or how to reach me.";
+
+function respondLocally(text){
+  const lower = text.toLowerCase();
+  const hit = intents.find(i => i.keys.some(k => lower.includes(k)));
+  return hit ? hit.reply : fallback;
+}
+
+async function sendMessage(){
+  const text = chatInput.value.trim();
+  if(!text) return;
+  addMsg(text, 'user');
+  chatInput.value = '';
+  chatSend.disabled = true;
+
+  const typingEl = addTyping();
+  const aiReply = await getAgentReply(text);
+  typingEl.remove();
+
+  addMsg(aiReply || respondLocally(text), 'bot');
+  chatSend.disabled = false;
+}
+chatSend.addEventListener('click', sendMessage);
+chatInput.addEventListener('keydown', e => { if(e.key === 'Enter') sendMessage(); });
+
+const quickPrompts = ['What have you built?', 'Tell me about LearnHub', 'What is your stack?', 'How do I contact you?'];
+quickPrompts.forEach(q => {
+  const btn = document.createElement('button');
+  btn.className = 'qr-btn';
+  btn.textContent = q;
+  btn.addEventListener('click', () => { chatInput.value = q; sendMessage(); });
+  quickReplies.appendChild(btn);
+});
+
+addMsg("Hey, I'm Farzeen's site assistant. Ask me about any project, the stack, or how to get in touch.", 'bot');
+</script>
+
+</body>
+</html>
